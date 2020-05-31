@@ -5,13 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.statecard.view.*
+import java.text.NumberFormat
+import java.util.*
 
-class StatesAdapter: RecyclerView.Adapter<CustomViewHolder>() {
+class StatesAdapter(val dataCovid: BrazilStates.DataCovid): RecyclerView.Adapter<CustomViewHolder>() {
 
-    val states = listOf<String>("Rio Grande do Sul", "Paraná", "Santa Catarina", "CrazzyWeed")
 
     override fun getItemCount(): Int {
-        return states.size
+        return dataCovid.data.count()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -21,8 +22,13 @@ class StatesAdapter: RecyclerView.Adapter<CustomViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val state = states.get(position)
-        holder?.view?.NomeEstado?.text=state
+        val state = dataCovid.data[position]
+        holder?.view?.NomeEstado?.text=dataCovid.data[position].state
+        holder?.view?.UF?.text = dataCovid.data[position].uf
+        holder?.view?.txtDeaths?.text = NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].deaths)
+        holder?.view?.txtCases?.text =  NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].cases)
+        holder?.view?.txtRefuses?.text =  NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].refuses)
+        holder?.view?.txtSuspects?.text = NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].suspects)
     }
 
 }

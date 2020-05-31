@@ -20,7 +20,7 @@ class BrazilStates : AppCompatActivity() {
         //statesRecView.setBackgroundColor(Color.BLACK)
 
         statesRecView.layoutManager = LinearLayoutManager(this)
-        statesRecView.adapter = StatesAdapter()
+        //statesRecView.adapter = StatesAdapter()
 
         fetchJson()
     }
@@ -31,14 +31,16 @@ class BrazilStates : AppCompatActivity() {
         val client = OkHttpClient()
 
         client.newCall(request).enqueue(object: Callback{
+
             override fun onResponse(call: Call, response: Response) {
                val body = response.body!!.string()
-                println(body)
-                //val json = JSONObject(response.body!!.string())
-                //val estados = json.getJSONArray("data")
                 val gson = GsonBuilder().create()
 
                 val dataCovid = gson.fromJson(body, DataCovid::class.java)
+                dataCovid.data = dataCovid.data.sortedBy { it.state }
+                runOnUiThread {
+                    statesRecView.adapter= StatesAdapter(dataCovid)
+                }
             }
 
             override fun onFailure(call: Call, e: IOException) {
@@ -47,8 +49,11 @@ class BrazilStates : AppCompatActivity() {
         })
     }
 
-    class DataCovid(val data: List<States>)
+    class DataCovid(var data: List<States>)
 
-    class States(val uid: Int, val uf: String)
+    class States(val uid: Int, val uf: String, val state: String,
+                 val cases: Int, val deaths: Int, val suspects: Int,
+                 val refuses: Int)
+
 
 }
