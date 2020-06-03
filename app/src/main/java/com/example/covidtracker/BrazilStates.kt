@@ -17,10 +17,7 @@ class BrazilStates : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brazil_states)
 
-        //statesRecView.setBackgroundColor(Color.BLACK)
-
         statesRecView.layoutManager = LinearLayoutManager(this)
-        //statesRecView.adapter = StatesAdapter()
 
         fetchJson()
     }
@@ -49,11 +46,7 @@ class BrazilStates : AppCompatActivity() {
         })
     }
 
-    class DataCovid(var data: List<States>)
 
-    class States(val uid: Int, val uf: String, val state: String,
-                 val cases: Int, val deaths: Int, val suspects: Int,
-                 val refuses: Int)
 
 
 }
