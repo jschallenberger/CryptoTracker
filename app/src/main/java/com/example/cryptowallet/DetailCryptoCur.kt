@@ -2,18 +2,18 @@ package com.example.cryptowallet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.gson.GsonBuilder
+import android.widget.Toast
+import androidx.room.Room
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.detailcrypto.*
-import okhttp3.*
-import java.io.IOException
-import java.text.NumberFormat
-import java.util.*
 
-class DetailState : AppCompatActivity() {
+class DetailCryptoCur : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detailcrypto)
+
         val stringCryptoName = intent.getStringExtra("crypto")
         val stringCryptoCode = intent.getStringExtra("cryptocode")
         val stringCryptoPrice = intent.getStringExtra("price").toDouble()
@@ -21,9 +21,16 @@ class DetailState : AppCompatActivity() {
         cryptoNome.text = stringCryptoName
         txtPrice.text = "%.2f".format(stringCryptoPrice) + " USD"
 
-    }
+        btnBuy.setOnClickListener {
 
-    fun fetchJson(endpoint: String){
+        }
+    }
+}
+
+
+
+
+    /*fun fetchJson(endpoint: String){
         val url = "https://covid19-brazil-api.now.sh/api/report/v1/brazil/uf/$endpoint"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
@@ -49,5 +56,5 @@ class DetailState : AppCompatActivity() {
                 println("Errorrrrrr")
             }
         })
-    }
-}
+    }*/
+

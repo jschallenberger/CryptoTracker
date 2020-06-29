@@ -1,44 +1,80 @@
-package com.example.covidtracker
+package com.example.cryptowallet
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.recyclerstatecard.view.*
-import java.text.NumberFormat
+import kotlinx.android.synthetic.main.cryptocard.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class StatesAdapter(val listCryptos: List<Cryptos>): RecyclerView.Adapter<CustomViewHolder>() {
+class CryptosAdapter(val listCryptos: ArrayList<Cryptos>): RecyclerView.Adapter<CustomViewHolder>(), Filterable {
+
+    var cryptoFilterList = ArrayList<Cryptos>()
+
+    init {
+        cryptoFilterList = listCryptos
+    }
 
     override fun getItemCount(): Int {
-        return listCryptos.count()
+        return cryptoFilterList.count()
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    cryptoFilterList = listCryptos
+                } else {
+                    var resultList = ArrayList<Cryptos>()
+                    for (row in listCryptos) {
+                        if (row?.asset_id?.toLowerCase(Locale.ROOT)?.contains(charSearch.toLowerCase(Locale.ROOT))) {
+                            resultList.add(row)
+                        }
+                    }
+                    cryptoFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = cryptoFilterList
+                return filterResults
+            }
+
+            override fun publishResults(p0: CharSequence?, results: FilterResults?) {
+                cryptoFilterList = (results?.values as ArrayList<Cryptos>)!!
+                notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val layoutInflater = LayoutInflater.from(parent?.context)
-        val cellForRow = layoutInflater.inflate(R.layout.recyclerstatecard, parent, false)
+        val cellForRow = layoutInflater.inflate(R.layout.cryptocard, parent, false)
         return CustomViewHolder(cellForRow)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         //val state = dataCovid.data[position]
-        holder?.view?.nomeEstado2?.text=listCryptos[position].name
-        holder?.view?.UF3?.text = listCryptos[position].asset_id
-       // holder?.view?.txtDeaths?.text = NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].deaths)
-       // holder?.view?.txtCases?.text =  NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].cases)
-       // holder?.view?.txtRefuses?.text =  NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].refuses)
-       // holder?.view?.txtSuspects?.text = NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].suspects)
+        holder?.view?.cryptoName?.text=cryptoFilterList[position].name
+        holder?.view?.cryptoCode?.text = cryptoFilterList[position].asset_id
+        holder?.view?.price.text = cryptoFilterList[position].price_usd.toString()
+
     }
 
 }
 
 class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view){
     init {
+
         view.setOnClickListener {
-            val intent = Intent(view.context, DetailState::class.java)
-            intent.putExtra("UF",it.UF3.text)
+            val intent = Intent(view.context, DetailCryptoCur::class.java)
+            intent.putExtra("cryptocode",it.cryptoCode.text)
+            intent.putExtra("crypto",it.cryptoName.text)
+            intent.putExtra("price",it.price.text)
             view.context.startActivity(intent)
         }
     }

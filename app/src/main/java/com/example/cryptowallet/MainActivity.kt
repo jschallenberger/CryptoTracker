@@ -1,31 +1,50 @@
-package com.example.covidtracker
+package com.example.cryptowallet
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import java.io.IOException
-import java.text.NumberFormat
-import java.util.*
-import kotlin.collections.ArrayList
+
+
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var adapter: CryptosAdapter
+    lateinit var recCarteira: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        recCarteira.layoutManager = LinearLayoutManager(this)
+        recCarteira = findViewById(R.id.recCarteira)
+        recCarteira.layoutManager = LinearLayoutManager(recCarteira.context)
+        //recCarteira.setHasFixedSize(true)
+
         btnAdicionar.setOnClickListener {
-            val intent = Intent(this, BrazilStates::class.java)
+            //val intent = Intent(this, BrazilStates::class.java)
             startActivity(intent)
         }
 
         fetchJson()
+
+        searchCrypto.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
+
     }
 
     fun fetchJson(){
@@ -38,13 +57,13 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body!!.string()
                 val gson = GsonBuilder().create()
-                val sType = object : TypeToken<List<Cryptos>>() { }.type
-                var cryptos = gson.fromJson<List<Cryptos>>(body,sType)
-                cryptos = cryptos.sortedBy { it.asset_id }
-                cryptos = cryptos.filter { it.asset_id.contains("BTC") }
+                val sType = object : TypeToken<ArrayList<Cryptos>>() { }.type
+                var cryptos = gson.fromJson<ArrayList<Cryptos>>(body,sType)
 
                 runOnUiThread {
-                    recCarteira.adapter = StatesAdapter(cryptos)
+                    adapter = CryptosAdapter(cryptos)
+                    recCarteira.adapter = adapter
+                    progressBar.visibility = View.GONE
                 }
             }
 
