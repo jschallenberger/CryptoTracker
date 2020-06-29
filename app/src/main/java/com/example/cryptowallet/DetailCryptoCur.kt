@@ -1,10 +1,9 @@
-package com.example.covidtracker
+package com.example.cryptowallet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.activity_brazil_states.*
-import kotlinx.android.synthetic.main.statecard.*
+import kotlinx.android.synthetic.main.detailcrypto.*
 import okhttp3.*
 import java.io.IOException
 import java.text.NumberFormat
@@ -14,10 +13,13 @@ class DetailState : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.statecard)
-        val stringUF = intent.getStringExtra("UF")
-        println(stringUF)
-        fetchJson(stringUF)
+        setContentView(R.layout.detailcrypto)
+        val stringCryptoName = intent.getStringExtra("crypto")
+        val stringCryptoCode = intent.getStringExtra("cryptocode")
+        val stringCryptoPrice = intent.getStringExtra("price").toDouble()
+        crypCod.text = stringCryptoCode
+        cryptoNome.text = stringCryptoName
+        txtPrice.text = "%.2f".format(stringCryptoPrice) + " USD"
 
     }
 
