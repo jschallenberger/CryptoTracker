@@ -9,10 +9,11 @@ import kotlinx.android.synthetic.main.recyclerstatecard.view.*
 import java.text.NumberFormat
 import java.util.*
 
-class StatesAdapter(val dataCovid: DataCovid): RecyclerView.Adapter<CustomViewHolder>() {
+
+class StatesAdapter(val listCryptos: List<Cryptos>): RecyclerView.Adapter<CustomViewHolder>() {
 
     override fun getItemCount(): Int {
-        return dataCovid.data.count()
+        return listCryptos.count()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -22,9 +23,9 @@ class StatesAdapter(val dataCovid: DataCovid): RecyclerView.Adapter<CustomViewHo
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val state = dataCovid.data[position]
-        holder?.view?.nomeEstado2?.text=dataCovid.data[position].state
-        holder?.view?.UF3?.text = dataCovid.data[position].uf
+        //val state = dataCovid.data[position]
+        holder?.view?.nomeEstado2?.text=listCryptos[position].name
+        holder?.view?.UF3?.text = listCryptos[position].asset_id
        // holder?.view?.txtDeaths?.text = NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].deaths)
        // holder?.view?.txtCases?.text =  NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].cases)
        // holder?.view?.txtRefuses?.text =  NumberFormat.getIntegerInstance(Locale.GERMAN).format(dataCovid.data[position].refuses)

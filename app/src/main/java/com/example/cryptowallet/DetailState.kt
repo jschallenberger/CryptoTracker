@@ -32,14 +32,14 @@ class DetailState : AppCompatActivity() {
                 val body = response.body!!.string()
                 val gson = GsonBuilder().create()
 
-                val statesMod: States = gson.fromJson(body, States::class.java)
+                //val statesMod: States = gson.fromJson(body, States::class.java)
                 runOnUiThread {
-                    UF.text = statesMod.uf
-                    NomeEstado.text = statesMod.state
-                    txtDeaths.text =NumberFormat.getIntegerInstance(Locale.GERMAN).format(statesMod.deaths)
-                    txtCases.text =NumberFormat.getIntegerInstance(Locale.GERMAN).format(statesMod.cases)
-                    txtRefuses.text =NumberFormat.getIntegerInstance(Locale.GERMAN).format(statesMod.refuses)
-                    txtSuspects.text =NumberFormat.getIntegerInstance(Locale.GERMAN).format(statesMod.suspects)
+                    //UF.text = statesMod.uf
+                   // NomeEstado.text = statesMod.state
+                   // txtDeaths.text =NumberFormat.getIntegerInstance(Locale.GERMAN).format(statesMod.deaths)
+                  //  txtCases.text =NumberFormat.getIntegerInstance(Locale.GERMAN).format(statesMod.cases)
+                  //  txtRefuses.text =NumberFormat.getIntegerInstance(Locale.GERMAN).format(statesMod.refuses)
+                   // txtSuspects.text =NumberFormat.getIntegerInstance(Locale.GERMAN).format(statesMod.suspects)
                 }
             }
 

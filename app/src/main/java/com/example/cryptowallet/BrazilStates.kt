@@ -33,10 +33,10 @@ class BrazilStates : AppCompatActivity() {
                val body = response.body!!.string()
                 val gson = GsonBuilder().create()
 
-                val dataCovid = gson.fromJson(body, DataCovid::class.java)
-                dataCovid.data = dataCovid.data.sortedBy { it.state }
+                //val dataCovid = gson.fromJson(body, DataCovid::class.java)
+                //dataCovid.data = dataCovid.data.sortedBy { it.state }
                 runOnUiThread {
-                    statesRecView.adapter= StatesAdapter(dataCovid)
+                    //statesRecView.adapter= StatesAdapter(dataCovid)
                 }
             }
 
