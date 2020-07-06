@@ -13,11 +13,15 @@ data class CryptoBuy(
     val cryptocode: String,
     val name: String,
     val price: Double,
-    val quantity: Double)
+    val quantity: Double,
+    val data: String)
 
 //-------------------DataBase DAO-----------------------
 @Dao
 interface CryptoDAO{
+
+   // @Query("SELECT cryptocode, name, quantity FROM CryptoBuy GROUP BY cryptocode")
+   // suspend fun getCryptoCodes(): List<CryptoBuy>
 
     @Insert
     suspend fun insertCryptoBuy(cryptoBuy: CryptoBuy)
@@ -25,8 +29,8 @@ interface CryptoDAO{
     @Update
     suspend fun updateCryptoBuy(cryptoBuy: CryptoBuy)
 
-    @Query ("DELETE FROM CryptoBuy WHERE cryptocode == :cryptocode")
-    suspend fun deleteCryptoBuy(cryptocode: String)
+    @Query ( "DELETE FROM CryptoBuy WHERE id = :id")
+    suspend fun deleteCryptoBuy(id: Int?)
 
     @Query("SELECT * FROM  CryptoBuy WHERE cryptocode == :cryptocode")
     suspend fun getCryptoBuys(cryptocode: String): List<CryptoBuy>
@@ -34,7 +38,7 @@ interface CryptoDAO{
 }
 
 //-------------------DataBase Creation-----------------------
-@Database(entities = [CryptoBuy::class], version = 1, exportSchema = false)
+@Database(entities = [CryptoBuy::class], version = 2, exportSchema = false)
 abstract class AppDatabase: RoomDatabase(){
     abstract fun cryptoDAO() : CryptoDAO
 
@@ -51,7 +55,7 @@ abstract class AppDatabase: RoomDatabase(){
         }
 
         private fun buildDatabase(context: Context): AppDatabase{
-            return Room.databaseBuilder(context, AppDatabase::class.java, "CryptoDB").build()
+            return Room.databaseBuilder(context, AppDatabase::class.java, "CryptoDB").fallbackToDestructiveMigration().build()
         }
     }
 }

@@ -3,17 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtDeaths"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtTotalCarteira"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:text="Total em Carteira"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/avprice"
+        app:layout_constraintStart_toStartOf="@+id/txtPrecoAtual"
+        app:layout_constraintTop_toBottomOf="@+id/txtPrice" />
+
+    <TextView
+        android:id="@+id/txtPrecoMedio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rounded_corner"
         android:backgroundTint="#0E0101"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#FF0000"
         app:layout_constraintEnd_toEndOf="@+id/avprice"
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="@+id/avprice"
@@ -48,7 +60,7 @@
         app:layout_constraintTop_toTopOf="@+id/crypCod" />
 
     <TextView
-        android:id="@+id/Cases"
+        android:id="@+id/txtPrecoAtual"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -73,29 +85,28 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/Cases"
+        app:layout_constraintStart_toEndOf="@+id/txtPrecoAtual"
         app:layout_constraintTop_toBottomOf="@+id/cryptoNome" />
 
     <TextView
         android:id="@+id/txtPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rounded_corner"
         android:backgroundTint="#0E0101"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/Cases"
-        app:layout_constraintStart_toStartOf="@+id/Cases"
-        app:layout_constraintTop_toBottomOf="@+id/Cases" />
+        app:layout_constraintEnd_toEndOf="@+id/txtPrecoAtual"
+        app:layout_constraintStart_toStartOf="@+id/txtPrecoAtual"
+        app:layout_constraintTop_toBottomOf="@+id/txtPrecoAtual" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="409dp"
         android:layout_height="1dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBuy" />
@@ -104,20 +115,40 @@
         android:id="@+id/btnBuy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Comprar"
+        app:layout_constraintBottom_toBottomOf="@+id/edtQuantity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/edtQuantity"
+        app:layout_constraintTop_toTopOf="@+id/edtQuantity" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recComprados"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTotal" />
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-    <TextView
-        android:id="@+id/txtTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="59dp"
-        android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/Cases"
-        app:layout_constraintStart_toStartOf="@+id/Cases"
-        app:layout_constraintTop_toBottomOf="@+id/txtPrice" />
+    <EditText
+        android:id="@+id/edtQuantity"
+        android:layout_width="206dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Quantidade"
+        android:inputType="numberDecimal"
+        android:maxLength="12"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnBuy"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTotalCarteira" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

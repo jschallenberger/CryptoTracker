@@ -1,10 +1,8 @@
 package com.example.cryptowallet
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
@@ -27,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         recCarteira.layoutManager = LinearLayoutManager(recCarteira.context)
         //recCarteira.setHasFixedSize(true)
 
-        btnAdicionar.setOnClickListener {
+        btnCarteira.setOnClickListener {
             //val intent = Intent(this, BrazilStates::class.java)
             startActivity(intent)
         }
@@ -38,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 adapter.filter.filter(newText)
                 return false
