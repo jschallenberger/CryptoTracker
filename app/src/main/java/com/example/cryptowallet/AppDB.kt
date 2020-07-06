@@ -20,8 +20,8 @@ data class CryptoBuy(
 @Dao
 interface CryptoDAO{
 
-   // @Query("SELECT cryptocode, name, quantity FROM CryptoBuy GROUP BY cryptocode")
-   // suspend fun getCryptoCodes(): List<CryptoBuy>
+    @Query("SELECT cryptocode, name, price, quantity, data   FROM CryptoBuy GROUP BY cryptocode")
+    suspend fun getCryptoALL(): List<CryptoBuy>
 
     @Insert
     suspend fun insertCryptoBuy(cryptoBuy: CryptoBuy)

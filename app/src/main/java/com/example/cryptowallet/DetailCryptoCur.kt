@@ -29,22 +29,23 @@ class DetailCryptoCur : AppCompatActivity() {
         cryptoNome.text = stringCryptoName
         txtPrice.text = "%.2f".format(stringCryptoPrice) + " USD"
 
-
         CoroutineScope(Main).launch {
+            val dbCryptoList = db.getCryptoBuys(stringCryptoCode)
             recComprados.adapter =
-                OrderAdapter(db.getCryptoBuys(stringCryptoCode).toArrayList(), db, this@DetailCryptoCur)
+                OrderAdapter(dbCryptoList.toArrayList(), db, this@DetailCryptoCur)
             totalG = retornamult(db.getCryptoBuys(stringCryptoCode))
             totalQ = retornasoma(db.getCryptoBuys(stringCryptoCode))
-            txtPrecoMedio.text = if((retornamult(db.getCryptoBuys(stringCryptoCode))/ retornasoma(db.getCryptoBuys(stringCryptoCode))).isNaN()){
-                " - "
+            if((retornamult(dbCryptoList)/ retornasoma(dbCryptoList)).isNaN()){
+                txtPrecoMedio.text = " - "
             }else{
-               "%.2f".format(retornamult(db.getCryptoBuys(stringCryptoCode))/ retornasoma(db.getCryptoBuys(stringCryptoCode))) + " USD"
+                val total = (retornasoma(dbCryptoList) * stringCryptoPrice) - retornamult(dbCryptoList)
+                txtPrecoMedio.text = "%.2f".format(retornamult(dbCryptoList)/ retornasoma(dbCryptoList)) + " USD"
+                txtTotalCarteira.text = "Total em Carteira: %.2f".format(retornamult(dbCryptoList)) + " USD ($ %.2f".format(total) + " )"
             }
             if ((totalG/totalQ) < stringCryptoPrice){
                 txtPrecoMedio.setTextColor(Color.parseColor("#00ff00"))
             }
         }
-
 
         btnBuy.setOnClickListener {
             try{
@@ -67,7 +68,7 @@ class DetailCryptoCur : AppCompatActivity() {
                             totalG = retornamult(listabuys)
                             totalQ = retornasoma(listabuys)
 
-                            txtPrecoMedio.text = "%.2f".format(totalG/totalQ) + " USD"
+                           updateTotal(listabuys.toArrayList())
                             if ((totalG/totalQ) < stringCryptoPrice){
                                 txtPrecoMedio.setTextColor(Color.parseColor("#00ff00"))
                             }
@@ -84,10 +85,10 @@ class DetailCryptoCur : AppCompatActivity() {
             txtPrecoMedio.text = " - "
         }else{
             txtPrecoMedio.text = "%.2f".format(retornamult(t)/ retornasoma(t)) + " USD"
+            txtTotalCarteira.text = "Total em Carteira: %.2f".format(retornamult(t)) + " USD"
         }
 
     }
-
 }
 
 fun retornamult(lista: List<CryptoBuy>):Double{

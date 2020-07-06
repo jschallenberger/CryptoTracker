@@ -28,7 +28,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/cryptoCode"
-        app:layout_constraintEnd_toStartOf="@+id/price"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cryptoCode"
         app:layout_constraintTop_toTopOf="@+id/cryptoCode" />
 

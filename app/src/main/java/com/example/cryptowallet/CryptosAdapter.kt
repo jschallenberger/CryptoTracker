@@ -62,14 +62,12 @@ class CryptosAdapter(val listCryptos: ArrayList<Cryptos>): RecyclerView.Adapter<
         holder?.view?.cryptoName?.text=cryptoFilterList[position].name
         holder?.view?.cryptoCode?.text = cryptoFilterList[position].asset_id
         holder?.view?.price.text = cryptoFilterList[position].price_usd.toString()
-
     }
 
 }
 
 class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view){
     init {
-
         view.setOnClickListener {
             val intent = Intent(view.context, DetailCryptoCur::class.java)
             intent.putExtra("cryptocode",it.cryptoCode.text)

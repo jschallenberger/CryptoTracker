@@ -43,7 +43,7 @@ class OrderAdapter(var listCryptos: ArrayList<CryptoBuy>, val cryptoDAO: CryptoD
         val total ="%.2f".format(listCryptos[position].quantity * listCryptos[position].price) + " USD"
         val id = listCryptos[position].id
         holder?.view?.txtTotal.text = total.toString()
-            holder?.view?.txtData.text = listCryptos[position].data
+        holder?.view?.txtData.text = listCryptos[position].data
         holder?.view?.floatingActionButton.setOnClickListener {
             CoroutineScope(IO).launch {
                 cryptoDAO.deleteCryptoBuy(id)
